@@ -5,7 +5,7 @@ const cors = require('cors')
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(express.static('build'))
+app.use(express.static('public'))
 
 let notes = [
   {
