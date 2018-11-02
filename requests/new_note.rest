@@ -2,7 +2,7 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-  "content": "VS Coden REST client on paras",
-  "important": true,
+  "content": "Test",
+  "important": false,
   "date": "2017-12-10T18:39:34.091Z"
 }
