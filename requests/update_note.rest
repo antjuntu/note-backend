@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/notes/5bdafd5219be6f2e4c13cfc6
+Content-Type: application/json
+
+{
+  "content": "Testataan updatea",
+  "important": false
+}
