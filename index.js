@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const mongoose = require('mongoose')
 
 const Note = require('./models/note')
 
@@ -32,7 +31,7 @@ app.use(logger)
 
 
 app.get('/api/notes', (request, response) => {
-  Note  
+  Note
     .find({})
     .then(notes => {
       response.json(notes.map(note => formatNote(note)))
@@ -57,19 +56,16 @@ app.get('/api/notes/:id', (request, response) => {
 
 app.delete('/api/notes/:id', (request, response) => {
   Note
-    .findByIdAndRemove(request.params.id) 
-    .then(result => {
+    .findOneAndDelete(request.params.id)
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => {
+      console.log(error)
       response.status(400).send({ error: 'malformatted id' })
     })
 })
 
-const generateId = () => {
-  const maxId = notes.length > 0 ? notes.map(note => note.id).sort((a,b) => a - b).reverse()[0] : 1
-  return maxId + 1
-}
 
 app.post('/api/notes', (request, response) => {
   const body = request.body
