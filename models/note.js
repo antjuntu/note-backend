@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const url = process.env.MONGODB_URI
+const url = process.env.MONGODB_URIgi
 
 mongoose.connect(url, { useNewUrlParser: true })
 
