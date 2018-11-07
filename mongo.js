@@ -10,25 +10,25 @@ const Note = mongoose.model('Note', {
   important: Boolean
 })
 
-// const note = new Note({
-//   content: 'HTML on helppoa2222',
-//   date: new Date(),
-//   important: true
-// })
+const note = new Note({
+  content: 'Testi 3',
+  date: new Date(),
+  important: false
+})
 
-// note
-//   .save()
-//   .then(result => {
-//     console.log('note saved')
-//     mongoose.connection.close()
-//   })
-
-Note
-  .find({ important: false })
+note
+  .save()
   .then(result => {
-    console.log(result)
+    console.log('note saved')
     mongoose.connection.close()
   })
+
+// Note
+//   .find({ important: false })
+//   .then(result => {
+//     console.log(result)
+//     mongoose.connection.close()
+//   })
 
 // let notes = [
 //   {

@@ -22,7 +22,8 @@
     "cross-env": "^5.2.0",
     "eslint": "^5.8.0",
     "jest": "^23.6.0",
-    "nodemon": "^1.18.5"
+    "nodemon": "^1.18.5",
+    "supertest": "^3.3.0"
   },
   "jest": {
     "testEnvironment": "node"
