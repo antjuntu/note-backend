@@ -10,12 +10,9 @@ const formatNote = (note) => {
   }
 }
 
-notesRouter.get('/', (request, response) => {
-  Note
-    .find({})
-    .then(notes => {
-      response.json(notes.map(formatNote))
-    })
+notesRouter.get('/', async (request, response) => {
+  const notes = await Note.find({})
+  response.json(notes.map(formatNote))
 })
 
 notesRouter.get('/:id', (request, response) => {
@@ -47,11 +44,11 @@ notesRouter.delete('/:id', (request, response) => {
     })
 })
 
-notesRouter.post('/', (request, response) => {
+notesRouter.post('/', async (request, response) => {
   const body = request.body
 
   if (body.content === undefined) {
-    response.status(400).json({ error: 'content missing' })
+    return response.status(400).json({ error: 'content missing' })
   }
 
   const note = new Note({
@@ -60,14 +57,8 @@ notesRouter.post('/', (request, response) => {
     date: new Date()
   })
 
-  note
-    .save()
-    .then(note => {
-      return formatNote(note)
-    })
-    .then(formattedNote => {
-      response.json(formattedNote)
-    })
+  const savedNote = await note.save()
+  response.json(formatNote(savedNote))
 })
 
 notesRouter.put('/:id', (request, response) => {
