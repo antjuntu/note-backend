@@ -91,6 +91,48 @@ test('note without content is not added', async () => {
   expect(response.body.length).toBe(initialNotes.body.length)
 })
 
+test('a specific note can be viewed', async () => {
+  const resultAll = await api
+    .get('/api/notes')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const aNoteFromAll = resultAll.body[0]
+
+  const resultNote = await api
+    .get(`/api/notes/${aNoteFromAll.id}`)
+
+  const noteObject = resultNote.body
+
+  expect(noteObject).toEqual(aNoteFromAll)
+})
+
+test('a note can be deleted', async () => {
+  const newNote = {
+    content: 'delete',
+    important: true
+  }
+
+  const addedNote = await api
+    .post('/api/notes')
+    .send(newNote)
+
+  const notesAtBeginningOfOperation = await api
+    .get('/api/notes')
+
+  await api
+    .delete(`/api/notes/${addedNote.body.id}`)
+    .expect(204)
+
+  const notesAfterDelete = await api
+    .get('/api/notes')
+
+  const contents = notesAfterDelete.body.map(r => r.content)
+
+  expect(contents).not.toContain('delete')
+  expect(notesAfterDelete.body.length).toBe(notesAtBeginningOfOperation.body.length - 1)
+})
+
 afterAll(() => {
   server.close()
 })
