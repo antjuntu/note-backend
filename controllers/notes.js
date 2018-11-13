@@ -1,5 +1,6 @@
 const notesRouter = require('express').Router()
 const Note = require('../models/note')
+const mongoose = require('mongoose')
 
 const formatNote = (note) => {
   return {
@@ -17,6 +18,10 @@ notesRouter.get('/', async (request, response) => {
 
 notesRouter.get('/:id', async (request, response) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
+      return response.status(400).send({ error: 'malformatted id' })
+    }
+
     const note = await Note.findById(request.params.id)
 
     if (note) {
@@ -26,14 +31,13 @@ notesRouter.get('/:id', async (request, response) => {
     }
   } catch (exception) {
     console.log(exception)
-    response.status(400).send({ error: 'malformatted id' })
   }
 })
 
 notesRouter.delete('/:id', async (request, response) => {
   try {
     await Note.findByIdAndRemove(request.params.id)
-    
+
     response.status(204).end()
   } catch (exception) {
     console.log(exception)
