@@ -12,7 +12,8 @@ noteSchema.statics.format = (note) => {
     id: note._id,
     content: note.content,
     date: note.date,
-    important: note.important
+    important: note.important,
+    user: note.user
   }
 }
 
